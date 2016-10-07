@@ -27,9 +27,9 @@ def prepare_logger(name, loglevel=None, handlers=None):
         log.addHandler(handler)
 
 
-class ConfigSingleton(object):
+class ConfigSingleton(ConfigParser):
     """
-    Singleton which has all configruation related info.
+    Singleton which has all configuration related info.
     """
     _instance = None
 
@@ -39,9 +39,12 @@ class ConfigSingleton(object):
                 cls, *args, **kwargs)
         return cls._instance
 
-    def __init__(self, module=None, location=None):
+    def __init__(self, module, location=None, defaults=None):
+        ConfigParser.__init__(self, defaults=defaults)
         if not hasattr(self, 'configparser'):
             self.configparser = ConfigParser()
+            if module:
+                self.module = module
             if not location:
                 self.configparser.read(['/etc/%s.ini' % module, os.path.expanduser('~/%s.ini' % module),
                                         os.path.expanduser('~/.config/%s/config.ini' % module),
@@ -49,7 +52,7 @@ class ConfigSingleton(object):
             else:
                 self.configparser.read(location)
 
-    def get(self, section, field, default=None):
+    def get(self, section, field, raw=None, default=None, vars=None):
         """
         Returns the value of a certain field in a certain section on the
         configuration
@@ -59,7 +62,7 @@ class ConfigSingleton(object):
         @return the value of said configuration item
         """
         try:
-            result = self.configparser.get(section, field)
+            result = self.configparser.get(section, field, raw=raw, vars=vars)
         except (NoOptionError, NoSectionError):
             result = default
         return result
