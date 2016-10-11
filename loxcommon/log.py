@@ -18,6 +18,7 @@ except ImportError:
 
 DEFAULT_FORMATTER_STR = "%(asctime)s - %(module)s %(lineno)s - %(threadName)s - %(levelname)s - %(message)s"
 
+loggers = dict()
 
 def prepare_logging(configparser, log_path=None, log_name=None, log_level=logging.NOTSET):
     """
@@ -43,14 +44,14 @@ def prepare_logging(configparser, log_path=None, log_name=None, log_level=loggin
             if console:
                 handlers.append(StreamHandler(stdout))
         except (NoSectionError, NoOptionError) as ex:
-            pass
+            handlers.append(StreamHandler(stdout))
 
-    try:
-        log_path_ini = configparser.get('logging', 'logfile')
-        handlers.append(TimedRotatingFileHandler(log_path_ini, when='midnight', backupCount=30))
-    except (NoSectionError, NoOptionError) as ex:
-        if log_path:
-            handlers.append(TimedRotatingFileHandler(log_path, when='midnight', backupCount=30))
+    # try:
+    #     log_path_ini = configparser.get('logging', 'logfile')
+    #     handlers.append(TimedRotatingFileHandler(log_path_ini, when='midnight', backupCount=30))
+    # except (NoSectionError, NoOptionError) as ex:
+    #     if log_path:
+    #         handlers.append(TimedRotatingFileHandler(log_path, when='midnight', backupCount=30))
 
     # read log levels config
     try:
