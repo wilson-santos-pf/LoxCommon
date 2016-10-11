@@ -27,4 +27,7 @@ def mkdir_p(path):
 
 
 def getLogger():
-    return logging_utils.loggers[__name__]
+    try:
+        return logging_utils.loggers[__name__]
+    except KeyError:
+        return logging.getLogger(__name__)
