@@ -46,12 +46,12 @@ def prepare_logging(configparser, log_path=None, log_name=None, log_level=loggin
         except (NoSectionError, NoOptionError) as ex:
             handlers.append(StreamHandler(stdout))
 
-    # try:
-    #     log_path_ini = configparser.get('logging', 'logfile')
-    #     handlers.append(TimedRotatingFileHandler(log_path_ini, when='midnight', backupCount=30))
-    # except (NoSectionError, NoOptionError) as ex:
-    #     if log_path:
-    #         handlers.append(TimedRotatingFileHandler(log_path, when='midnight', backupCount=30))
+    try:
+        log_path_ini = configparser.get('logging', 'logfile')
+        handlers.append(TimedRotatingFileHandler(log_path_ini, when='midnight', backupCount=30))
+    except (NoSectionError, NoOptionError) as ex:
+        if log_path:
+            handlers.append(TimedRotatingFileHandler(log_path, when='midnight', backupCount=30))
 
     # read log levels config
     try:
