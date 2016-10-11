@@ -11,7 +11,6 @@ def mkdir_p(path):
     :return:
     """
 
-    print __name__
     if os.path.exists(path):
         getLogger().debug('%s already exists' % path)
         return
