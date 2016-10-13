@@ -16,7 +16,7 @@ except ImportError:
     from configparser import NoSectionError  # pylint: disable=F0401,W0611
     from urllib.error import URLError  # pylint: disable=F0401,W0611,E0611
 
-DEFAULT_FORMATTER_STR = "%(asctime)s - %(module)10s %(lineno)6s - %(threadName)15s - %(levelname)10s - %(message)s"
+DEFAULT_FORMATTER_STR = "%(asctime)s %(module)20s %(lineno)6s %(threadName)20s %(levelname)10s %(message)s"
 
 loggers = dict()
 

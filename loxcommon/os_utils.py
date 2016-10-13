@@ -24,6 +24,9 @@ def mkdir_p(path):
         getLogger().debug('mkdir: %s' % path)
         os.mkdir(path)
 
+def remove_extension(path, extension):
+    import re
+    return re.sub(extension + '$', '', path)
 
 def getLogger():
     try:
