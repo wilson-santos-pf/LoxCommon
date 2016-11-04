@@ -56,10 +56,11 @@ class ConfigSingleton(ConfigParser):
         """
         Returns the value of a certain field in a certain section on the
         configuration
-        @param section the [section] in which to look for the information
-        @param field the name of the configuration item to read
-        @param default Value to return when the config option can't be found
-        @return the value of said configuration item
+
+        :param section: the [section] in which to look for the information
+        :param field: the name of the configuration item to read
+        :param default: Value to return when the config option can't be found
+        :returns: the value of said configuration item
         """
         try:
             result = self.configparser.get(section, field, raw=raw, vars=vars)
@@ -71,10 +72,11 @@ class ConfigSingleton(ConfigParser):
         """
         Returns the value of a certain field in a certain section on the
         configuration in a boolean context
-        @param section the [section] in which to look for the information
-        @param field the name of the configuration item to read
-        @param default Value to return when the config option can't be found
-        @return the boolean value of said configuration item
+
+        :param section: the [section] in which to look for the information
+        :param field: the name of the configuration item to read
+        :param default: Value to return when the config option can't be found
+        :returns: the boolean value of said configuration item
         """
         try:
             result = self.configparser.getboolean(section, field)
@@ -86,9 +88,10 @@ class ConfigSingleton(ConfigParser):
         """
         Returns the value of a certain field in a certain section on the
         configuration, cast to an int.
-        @param section the [section] in which to look for the information
-        @param field the name of the configuration item to read
-        @return the integer value of said configuration item
+
+        :param section: the [section] in which to look for the information
+        :param field: the name of the configuration item to read
+        :returns: the integer value of said configuration item
         """
         try:
             result = self.configparser.getint(section, field)
