@@ -1,10 +1,11 @@
 import logging
-from os.path import exists
+from os.path import exists, dirname
 from logging import Formatter
 from logging import StreamHandler
 from logging import getLogger
 from logging.handlers import TimedRotatingFileHandler
 from sys import stdout
+from loxcommon.os_utils import mkdir_p
 
 try:
     from ConfigParser import ConfigParser, DEFAULTSECT
@@ -19,7 +20,6 @@ except ImportError:
 
 DEFAULT_FORMATTER_STR = "%(asctime)s %(module)20s %(lineno)6s %(threadName)20s %(levelname)10s %(message)s"
 
-loggers = dict()
 
 def prepare_logging(configparser, log_path=None, log_name=None, log_level=logging.NOTSET):
     """
@@ -49,9 +49,10 @@ def prepare_logging(configparser, log_path=None, log_name=None, log_level=loggin
 
     try:
         log_path_ini = configparser.get('logging', 'logfile')
+        mkdir_p(dirname(log_path_ini))
         handlers.append(TimedRotatingFileHandler(log_path_ini, when='midnight', backupCount=30))
     except (NoSectionError, NoOptionError) as ex:
-        if log_path and exists(log_path):
+        if log_path and exists(dirname(log_path)):
             handlers.append(TimedRotatingFileHandler(log_path, when='midnight', backupCount=30))
 
     # read log levels config

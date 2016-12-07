@@ -1,13 +1,10 @@
 """
 Module with some file handling utilities.
 """
-import logging
 import os
 import subprocess
 import sys
 from logging import getLogger
-
-import loxcommon.log as logging_utils
 
 
 def mkdir_p(path):
@@ -18,29 +15,20 @@ def mkdir_p(path):
     """
 
     if os.path.exists(path):
-        getLogger().debug('%s already exists' % path)
         return
 
     par = os.path.split(path)[0]
     if os.path.exists(par):
         os.mkdir(path)
-        getLogger().debug('mkdir: %s' % path)
+        getLogger(__name__).debug('created directory: %s' % path)
     else:
         mkdir_p(par)
-        getLogger().debug('mkdir: %s' % path)
         os.mkdir(path)
 
 
 def remove_extension(path, extension):
     import re
     return re.sub(extension + '$', '', path)
-
-
-def getLogger():
-    try:
-        return logging_utils.loggers[__name__]
-    except KeyError:
-        return logging.getLogger(__name__)
 
 
 FILE_ATTRIBUTE_HIDDEN = 0x02
