@@ -13,7 +13,7 @@ try:
     from ConfigParser import NoSectionError
     from urllib2 import URLError
 except ImportError:
-    from configparser import ConfigParser  # pylint: disable=F0401,W0611
+    from configparser import ConfigParser, DEFAULTSECT  # pylint: disable=F0401,W0611
     from configparser import NoOptionError  # pylint: disable=F0401,W0611
     from configparser import NoSectionError  # pylint: disable=F0401,W0611
     from urllib.error import URLError  # pylint: disable=F0401,W0611,E0611
