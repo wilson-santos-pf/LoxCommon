@@ -26,12 +26,6 @@ def prepare_logging(configparser, log_path=None, log_name=None, log_level=loggin
     sets up the root logger, Stream/File handlers, log format and log level
     """
 
-    if not configparser or not isinstance(configparser, ConfigParser):
-        configparser_tmp = ConfigParser()
-        if type(configparser) == str:
-            configparser_tmp.read(configparser)
-        configparser = configparser_tmp
-
     # setup handlers
     handlers = []
 
