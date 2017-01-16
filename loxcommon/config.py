@@ -37,7 +37,6 @@ class ConfigSingleton(ConfigParser):
         else:
             self.ini_file = ini_file
 
-        print(self.__class__.__name__ + ' reading ini file: ' + self.ini_file)
         ConfigParser.read(self, self.ini_file)
 
     def get(self, section, field, raw=None, default=None, vars=None):
