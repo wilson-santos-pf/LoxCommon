@@ -37,7 +37,10 @@ class ConfigSingleton(ConfigParser):
         else:
             self.ini_file = ini_file
 
-        ConfigParser.read(self, self.ini_file)
+        try:
+            ConfigParser.read(self, self.ini_file)
+        except AttributeError:
+            raise Exception('No ini file found for module: %s' % module)
 
     def get(self, section, field, raw=None, default=None, vars=None):
         """
