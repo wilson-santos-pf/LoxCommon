@@ -68,3 +68,35 @@ def hide_file(filename):
 
 def unhide_file(filename):
     change_file_attribute(filename, FILE_ATTRIBUTE_NORMAL)
+
+
+def get_keys_path(localbox_path):
+    """
+    Get the keys location for this localbox path.
+
+    >>> get_keys_path('/a/b/c')
+    'a'
+    >>> get_keys_path('a')
+    'a'
+    >>> get_keys_path('/a/b/c/')
+    'a'
+    >>> get_keys_path('a/b')
+    'a'
+
+    :param localbox_path:
+    :return: it returns the parent 'directory'
+    """
+    if localbox_path.startswith('/'):
+        localbox_path = localbox_path[1:]
+
+    keys_path = localbox_path.split('/')[0]
+
+    getLogger(__name__).debug('keys_path for localbox_path "%s" is "%s"' % (localbox_path, keys_path))
+    return keys_path
+
+
+if __name__ == "__main__":
+    # python os_utils.py -v
+    import doctest
+
+    doctest.testmod()
