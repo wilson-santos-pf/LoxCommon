@@ -3,6 +3,8 @@ Module with some file handling utilities.
 """
 import os
 import subprocess
+import psutil
+import getpass
 import sys
 from logging import getLogger
 
@@ -93,6 +95,23 @@ def get_keys_path(localbox_path):
 
     getLogger(__name__).debug('keys_path for localbox_path "%s" is "%s"' % (localbox_path, keys_path))
     return keys_path
+
+
+def find_pid_for_file(filesystem_path):
+    """
+    Get the process id of the process that has the file opened.
+
+    :param filesystem_path:
+    :return:
+    """
+    # FIXME: This does not work 100% of the time
+    for proc in psutil.process_iter():
+        pinfo = proc.as_dict(attrs=['pid', 'username', 'open_files'])
+        if pinfo['username'] == getpass.getuser():
+            if pinfo['open_files'] is not None:
+                for of in pinfo['open_files']:
+                    if filesystem_path in of.path:
+                        return pinfo['pid']
 
 
 if __name__ == "__main__":
