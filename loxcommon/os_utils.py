@@ -8,6 +8,10 @@ import getpass
 import sys
 from logging import getLogger
 
+from os.path import isdir
+
+from shutil import rmtree
+
 
 def mkdir_p(path):
     """
@@ -112,6 +116,25 @@ def find_pid_for_file(filesystem_path):
                 for of in pinfo['open_files']:
                     if filesystem_path in of.path:
                         return pinfo['pid']
+
+
+def shred(filesystem_path):
+    """
+    Remove a file/directory permanently.
+
+    :param filesystem_path:
+    :return:
+    """
+    # TODO: for now this provides only an "interface" and uses the common removal functions.
+    # latter on this will be replace by an library/function/algorithm/ that removes the files without the possibility
+    # of recovery.
+    try:
+        if isdir(filesystem_path):
+            rmtree(filesystem_path)
+        else:
+            os.remove(filesystem_path)
+    except OSError:
+        getLogger(__name__).exception()
 
 
 if __name__ == "__main__":
