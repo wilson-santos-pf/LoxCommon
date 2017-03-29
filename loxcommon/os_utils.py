@@ -1,8 +1,11 @@
 """
 Module with some file handling utilities.
 """
+import hashlib
 import os
 import subprocess
+from base64 import b64encode
+
 import psutil
 import getpass
 import sys
@@ -135,6 +138,16 @@ def shred(filesystem_path):
             os.remove(filesystem_path)
     except OSError:
         getLogger(__name__).exception()
+
+
+def hash_file(filesystem_path):
+    with open(filesystem_path, 'rb') as infile:
+        contents = infile.read()
+        m = hashlib.md5()
+        m.update(contents)
+        result = b64encode(m.digest())
+        getLogger(__name__).debug('hash for %s is %s' % (filesystem_path, result))
+        return result
 
 
 if __name__ == "__main__":
