@@ -23,6 +23,10 @@ FILE_ATTRIBUTE_HIDDEN = 0x02
 FILE_ATTRIBUTE_NORMAL = 0x80
 
 
+def is_windows():
+    return os.name == 'nt'
+
+
 def open_file_ext(url):
     if sys.platform == 'win32':
         p = os.startfile(url)
