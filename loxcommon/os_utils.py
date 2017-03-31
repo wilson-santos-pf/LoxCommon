@@ -1,38 +1,17 @@
 """
 Module with some file handling utilities.
 """
+import getpass
 import hashlib
 import os
 import subprocess
-from base64 import b64encode
-
-import psutil
-import getpass
 import sys
+from base64 import b64encode
 from logging import getLogger
-
 from os.path import isdir
-
 from shutil import rmtree
 
-
-def mkdir_p(path):
-    """
-    Similar to mkdir -p
-    :param path:
-    :return:
-    """
-
-    if os.path.exists(path):
-        return
-
-    par = os.path.split(path)[0]
-    if os.path.exists(par):
-        os.mkdir(path)
-        getLogger(__name__).debug('created directory: %s' % path)
-    else:
-        mkdir_p(par)
-        os.mkdir(path)
+import psutil
 
 
 def remove_extension(path, extension):
@@ -126,7 +105,7 @@ def shred(filesystem_path):
     Remove a file/directory permanently.
 
     :param filesystem_path:
-    :return:
+    :return: True is success, False otherwise.
     """
     # TODO: for now this provides only an "interface" and uses the common removal functions.
     # latter on this will be replace by an library/function/algorithm/ that removes the files without the possibility
@@ -136,8 +115,11 @@ def shred(filesystem_path):
             rmtree(filesystem_path)
         else:
             os.remove(filesystem_path)
-    except OSError:
-        getLogger(__name__).exception()
+
+        return True
+    except OSError as ex:
+        getLogger(__name__).exception(ex)
+        return False
 
 
 def hash_file(filesystem_path):
