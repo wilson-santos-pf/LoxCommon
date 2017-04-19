@@ -1,11 +1,11 @@
 import logging
-from os.path import exists, dirname
 from logging import Formatter
 from logging import StreamHandler
 from logging import getLogger
 from logging.handlers import TimedRotatingFileHandler
+from os import makedirs
+from os.path import exists, dirname
 from sys import stdout
-from loxcommon.os_utils import mkdir_p
 
 try:
     from ConfigParser import ConfigParser, DEFAULTSECT
@@ -43,7 +43,8 @@ def prepare_logging(configparser, log_path=None, log_name=None, log_level=loggin
 
     try:
         log_path_ini = configparser.get('logging', 'logfile')
-        mkdir_p(dirname(log_path_ini))
+        if not exists(dirname(log_path_ini)):
+            makedirs(dirname(log_path_ini))
         handlers.append(TimedRotatingFileHandler(log_path_ini, when='midnight', backupCount=30))
     except (NoSectionError, NoOptionError) as ex:
         if log_path and exists(dirname(log_path)):
