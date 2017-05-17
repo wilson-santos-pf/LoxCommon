@@ -11,6 +11,13 @@ from logging import getLogger
 from os.path import isdir
 from shutil import rmtree
 
+try:
+    from urllib import quote_plus
+    from urllib import unquote_plus
+except:
+    from urllib.parse import quote_plus
+    from urllib.parse import unquote_plus
+
 import psutil
 
 
@@ -134,6 +141,25 @@ def hash_file(filesystem_path):
         result = b64encode(m.digest())
         getLogger(__name__).debug('hash for %s is %s' % (filesystem_path, result))
         return result
+
+
+def get_path_for_url(path):
+    """
+    Receives a LocalBox path and returns it ready to be used on a HTTP request.
+
+    :param path: LocalBox path (eg,
+    :return:
+    """
+    return quote_plus(path.encode('utf8')).strip('/')
+
+
+def get_path_from_url(path):
+    """
+    Do the reverse operation of get_path_for_url
+    :param path:
+    :return:
+    """
+    return unquote_plus(path.decode('utf8'))
 
 
 if __name__ == "__main__":
