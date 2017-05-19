@@ -159,7 +159,7 @@ def get_path_from_url(path):
     :param path:
     :return:
     """
-    return unquote_plus(path.decode('utf8'))
+    return unqupte_plus(path).decode('utf8')
 
 
 if __name__ == "__main__":
